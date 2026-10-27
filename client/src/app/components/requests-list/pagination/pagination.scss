@@ -1,0 +1,23 @@
+$border: #e5e7eb;
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  margin-top: 24px;
+
+  button {
+    padding: 6px 20px;
+    border: 1px solid $border;
+    border-radius: 8px;
+    background: #fff;
+    font: inherit;
+    cursor: pointer;
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: default;
+    }
+  }
+}

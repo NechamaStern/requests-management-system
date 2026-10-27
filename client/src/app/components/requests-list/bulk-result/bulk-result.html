@@ -1,0 +1,34 @@
+<section class="result" [class.result--warn]="outcome().result.failedCount > 0" role="status">
+  <header class="result__header">
+    <h2>תוצאות העדכון ל"{{ statusLabel() }}"</h2>
+    <button type="button" class="result__close" aria-label="סגור" (click)="dismissed.emit()">✕</button>
+  </header>
+
+  <div class="result__counts">
+    <span class="count count--ok">✔ {{ outcome().result.succeededCount }} פניות עודכנו בהצלחה</span>
+    <span class="count" [class.count--fail]="outcome().result.failedCount > 0">
+      ✖ {{ outcome().result.failedCount }} פניות נכשלו
+    </span>
+  </div>
+
+  @if (failures().length > 0) {
+    <table class="result__table">
+      <thead>
+        <tr>
+          <th>פניה</th>
+          <th>סיבת הכשלון</th>
+          <th>הסבר</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (f of failures(); track f.id) {
+          <tr>
+            <td>{{ f.title }} <small>(#{{ f.id }})</small></td>
+            <td><span class="reason">{{ f.reasonLabel }}</span></td>
+            <td>{{ f.message }}</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  }
+</section>

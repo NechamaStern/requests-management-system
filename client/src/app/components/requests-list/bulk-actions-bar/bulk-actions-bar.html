@@ -1,0 +1,18 @@
+<div class="bar" role="toolbar" aria-label="פעולות על פניות נבחרות">
+  <span class="bar__count">נבחרו {{ count() }} פניות</span>
+
+  <label class="bar__field">
+    <span>עדכן סטטוס ל:</span>
+    <select [value]="status()" (change)="status.set($any($event.target).value)" [disabled]="busy()">
+      <option value="">בחר סטטוס…</option>
+      @for (o of options; track o.value) {
+        <option [value]="o.value">{{ o.label }}</option>
+      }
+    </select>
+  </label>
+
+  <button type="button" class="bar__apply" [disabled]="!status() || busy()" (click)="onApply()">
+    {{ busy() ? 'מעדכן…' : 'עדכן נבחרות' }}
+  </button>
+  <button type="button" class="bar__clear" [disabled]="busy()" (click)="cleared.emit()">נקה בחירה</button>
+</div>

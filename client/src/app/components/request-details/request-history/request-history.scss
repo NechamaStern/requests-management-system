@@ -1,0 +1,62 @@
+$border: #e5e7eb;
+$muted: #6b7280;
+
+.history {
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid $border;
+
+  &__title {
+    margin: 0 0 12px;
+    font-size: 1.2rem;
+  }
+
+  &__state {
+    margin: 0;
+    color: $muted;
+    font-size: 1.05rem;
+
+    &--error {
+      color: #b91c1c;
+    }
+  }
+
+  &__list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+}
+
+.entry {
+  padding: 10px 0;
+  border-bottom: 1px solid $border;
+
+  &__change {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 1.1rem;
+  }
+
+  &__meta {
+    margin-top: 4px;
+    color: $muted;
+    font-size: 0.95rem;
+  }
+}
+
+.badge {
+  padding: 2px 10px;
+  border-radius: 999px;
+  color: #fff;
+  background: var(--badge);
+  font-size: 0.95rem;
+}
+
+.btn {
+  margin-top: 8px;
+  font: inherit;
+  padding: 6px 14px;
+  cursor: pointer;
+}

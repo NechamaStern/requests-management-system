@@ -1,0 +1,87 @@
+<div class="backdrop" (click)="closed.emit()"></div>
+
+<aside class="drawer" role="dialog" aria-modal="true" aria-labelledby="request-details-title">
+  <header class="drawer__header">
+    <h2 id="request-details-title">פניה #{{ request().id }}</h2>
+    <button type="button" class="drawer__close" aria-label="סגור" (click)="closed.emit()">✕</button>
+  </header>
+
+  <div class="drawer__body">
+    <h3 class="title">{{ request().title }}</h3>
+
+    <dl class="fields">
+      <div>
+        <dt>ארגון</dt>
+        <dd>{{ request().organizationName }}</dd>
+      </div>
+      <div>
+        <dt>סטטוס נוכחי</dt>
+        <dd><span class="badge" [style.--badge]="status().color">{{ status().label }}</span></dd>
+      </div>
+      <div>
+        <dt>נוצרה</dt>
+        <dd>{{ request().createdAt | date: 'dd/MM/yyyy HH:mm' }}</dd>
+      </div>
+      <div>
+        <dt>עודכנה לאחרונה</dt>
+        <dd>{{ request().updatedAt | date: 'dd/MM/yyyy HH:mm' }}</dd>
+      </div>
+    </dl>
+
+    <form class="edit" [formGroup]="form" (ngSubmit)="save()">
+      <h4 class="edit__title">עריכת פניה</h4>
+
+      <label class="edit__field">
+        <span>סטטוס</span>
+        <select formControlName="status">
+          @for (s of statusOptions(); track s.value) {
+            <option [value]="s.value">{{ s.label }}</option>
+          }
+        </select>
+      </label>
+
+      <label class="edit__field">
+        <span>עדיפות</span>
+        <select formControlName="priority">
+          @for (p of priorityOptions; track p.value) {
+            <option [value]="p.value">{{ p.label }}</option>
+          }
+        </select>
+      </label>
+
+      <label class="edit__field">
+        <span>מטפל</span>
+        <select formControlName="assignedToUserId">
+          <option [ngValue]="null">לא הוקצה</option>
+          @for (u of assigneeOptions(); track u.id) {
+            <option [ngValue]="u.id">{{ u.displayName }}</option>
+          }
+        </select>
+        @if (usersFailed()) {
+          <small class="edit__hint">טעינת רשימת המטפלים נכשלה. ניתן לשמור שינויים אחרים.</small>
+        }
+      </label>
+
+      @if (problem(); as p) {
+        <div class="alert" [class.alert--conflict]="p.kind === 'conflict'" role="alert">
+          <p>{{ p.message }}</p>
+          @if (p.kind === 'conflict') {
+            <button type="button" class="btn" [disabled]="refreshing()" (click)="refresh()">
+              {{ refreshing() ? 'טוען...' : 'טען נתונים עדכניים' }}
+            </button>
+          }
+        </div>
+      }
+
+      @if (saved()) {
+        <p class="saved" role="status">השינויים נשמרו.</p>
+      }
+
+      <button type="submit" class="btn btn--primary" [disabled]="form.pristine || saving()">
+        {{ saving() ? 'שומר...' : 'שמור שינויים' }}
+      </button>
+    </form>
+
+    <app-request-history [requestId]="request().id" [version]="request().rowVersion" />
+  </div>
+</aside>

@@ -1,0 +1,32 @@
+$border: #e5e7eb;
+$muted: #6b7280;
+
+.sort {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-top: 16px;
+
+  &__label {
+    color: $muted;
+    font-size: 0.9rem;
+  }
+
+  &__btn {
+    padding: 4px 14px;
+    border: 1px solid $border;
+    border-radius: 999px;
+    background: #fff;
+    font: inherit;
+    font-size: 0.85rem;
+    cursor: pointer;
+
+    &--active {
+      border-color: #2563eb;
+      background: #eff6ff;
+      color: #1d4ed8;
+      font-weight: 600;
+    }
+  }
+}

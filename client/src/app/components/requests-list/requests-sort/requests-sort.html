@@ -1,0 +1,16 @@
+<div class="sort" role="group" aria-label="מיון">
+  <span class="sort__label">מיון לפי:</span>
+  @for (option of options; track option.field) {
+    <button
+      type="button"
+      class="sort__btn"
+      [class.sort__btn--active]="sort().sortBy === option.field"
+      [attr.aria-pressed]="sort().sortBy === option.field"
+      (click)="select(option.field)">
+      {{ option.label }}
+      @if (sort().sortBy === option.field) {
+        <span aria-hidden="true">{{ sort().sortDirection === 'Asc' ? '↑' : '↓' }}</span>
+      }
+    </button>
+  }
+</div>

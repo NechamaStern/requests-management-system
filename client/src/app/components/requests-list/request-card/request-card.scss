@@ -1,0 +1,99 @@
+$border: #e5e7eb;
+$muted: #6b7280;
+
+.card {
+  padding: 16px 20px;
+  background: #fff;
+  border: 1px solid $border;
+  border-inline-start: 4px solid var(--accent);
+  border-radius: 12px;
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  &--selected {
+    background: color-mix(in srgb, var(--accent) 6%, #fff);
+    border-color: var(--accent);
+  }
+
+  &__check {
+    flex-shrink: 0;
+    width: 18px;
+    height: 18px;
+    margin: 3px 0 0;
+    cursor: pointer;
+  }
+
+  &__title {
+    flex: 1;
+    margin: 0;
+    font-size: 1.05rem;
+  }
+
+  &__org {
+    margin: 4px 0 12px;
+    color: $muted;
+    font-size: 0.9rem;
+  }
+
+  &__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 32px;
+    margin: 0;
+
+    dt {
+      font-size: 0.75rem;
+      color: $muted;
+    }
+
+    dd {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin: 0;
+      font-size: 0.9rem;
+    }
+  }
+}
+
+.card__footer {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 12px;
+}
+
+.card__details-btn {
+  padding: 4px 14px;
+  font: inherit;
+  font-size: 0.85rem;
+  color: var(--accent);
+  background: #fff;
+  border: 1px solid var(--accent);
+  border-radius: 8px;
+  cursor: pointer;
+
+  &:hover {
+    background: color-mix(in srgb, var(--accent) 10%, #fff);
+  }
+}
+
+.badge {
+  flex-shrink: 0;
+  padding: 2px 12px;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--badge);
+  background: color-mix(in srgb, var(--badge) 14%, #fff);
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}

@@ -1,0 +1,81 @@
+$border: #e5e7eb;
+$muted: #6b7280;
+
+.filters {
+  margin-top: 24px;
+  padding: 20px;
+  background: #fff;
+  border: 1px solid $border;
+  border-radius: 12px;
+
+  &__title {
+    margin: 0 0 16px;
+    font-size: 1.15rem;
+  }
+
+  &__advanced {
+    margin-top: 20px;
+    padding-top: 16px;
+    border-top: 1px solid $border;
+  }
+
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+  }
+
+  &__error {
+    margin: 12px 0 0;
+    color: #b91c1c;
+    font-size: 0.85rem;
+  }
+
+  &__actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 20px;
+  }
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 0.85rem;
+  color: $muted;
+
+  &--wide {
+    grid-column: 1 / -1;
+  }
+
+  input,
+  select {
+    padding: 8px 10px;
+    border: 1px solid $border;
+    border-radius: 8px;
+    font: inherit;
+    color: #111827;
+    background: #fff;
+  }
+}
+
+.btn {
+  &:disabled {
+    opacity: 0.5;
+    cursor: default;
+  }
+  padding: 8px 24px;
+  border: 1px solid $border;
+  border-radius: 8px;
+  background: #fff;
+  font: inherit;
+  cursor: pointer;
+
+  &--primary {
+    background: #2563eb;
+    border-color: #2563eb;
+    color: #fff;
+    font-weight: 600;
+  }
+}

@@ -1,0 +1,36 @@
+<article class="card" [class.card--selected]="selected()" [style.--accent]="status().color">
+  <header class="card__header">
+    <input
+      type="checkbox"
+      class="card__check"
+      [checked]="selected()"
+      [attr.aria-label]="'select ' + request().title"
+      (change)="selectionChange.emit($any($event.target).checked)"
+    />
+    <h3 class="card__title">{{ request().title }}</h3>
+    <span class="badge" [style.--badge]="status().color">{{ status().label }}</span>
+  </header>
+
+  <p class="card__org">{{ request().organizationName }}</p>
+
+  <dl class="card__meta">
+    <div>
+      <dt>עדיפות</dt>
+      <dd><span class="dot" [style.background]="priority().color"></span>{{ priority().label }}</dd>
+    </div>
+    <div>
+      <dt>מטופל על ידי</dt>
+      <dd>{{ request().assignedTo ?? 'לא הוקצה' }}</dd>
+    </div>
+    <div>
+      <dt>נוצרה</dt>
+      <dd>{{ request().createdAt | date: 'dd/MM/yyyy' }}</dd>
+    </div>
+  </dl>
+
+  <footer class="card__footer">
+    <button type="button" class="card__details-btn" (click)="viewDetails.emit(request())">
+      פרטי הפניה
+    </button>
+  </footer>
+</article>

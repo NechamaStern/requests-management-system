@@ -1,0 +1,29 @@
+<section class="history" aria-labelledby="history-title">
+  <h4 id="history-title" class="history__title">היסטוריית שינויים</h4>
+
+  @if (history.isLoading()) {
+    <p class="history__state" role="status">טוען היסטוריה...</p>
+  } @else if (errorMessage(); as message) {
+    <div class="history__state history__state--error" role="alert">
+      <p>{{ message }}</p>
+      <button type="button" class="btn" (click)="history.reload()">נסה שוב</button>
+    </div>
+  } @else if (history.hasValue() && history.value().length === 0) {
+    <p class="history__state">לא בוצעו שינויי סטטוס בפניה זו.</p>
+  } @else {
+    <ol class="history__list">
+      @for (item of history.value(); track item.id) {
+        <li class="entry">
+          <div class="entry__change">
+            <span class="badge" [style.--badge]="display[item.previousStatus].color">{{ display[item.previousStatus].label }}</span>
+            <span aria-label="עבר ל">←</span>
+            <span class="badge" [style.--badge]="display[item.newStatus].color">{{ display[item.newStatus].label }}</span>
+          </div>
+          <div class="entry__meta">
+            {{ item.changedAt | date: 'dd/MM/yyyy HH:mm' }} · {{ item.changedBy }}
+          </div>
+        </li>
+      }
+    </ol>
+  }
+</section>

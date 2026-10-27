@@ -1,0 +1,5 @@
+<nav class="pagination" aria-label="ניווט בין עמודים">
+  <button type="button" [disabled]="page() <= 1" (click)="pageChange.emit(page() - 1)">הקודם</button>
+  <span>עמוד {{ page() }} מתוך {{ totalPages() }}</span>
+  <button type="button" [disabled]="page() >= totalPages()" (click)="pageChange.emit(page() + 1)">הבא</button>
+</nav>

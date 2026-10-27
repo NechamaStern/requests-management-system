@@ -1,0 +1,35 @@
+<main class="dashboard">
+  <header class="dashboard__header">
+    <h1>מערכת ניהול פניות</h1>
+    @if (state() === 'ready') {
+      <div class="total">
+        <span class="total__value">{{ summary()!.total.toLocaleString('he-IL') }}</span>
+        <span class="total__label">סה"כ פניות</span>
+      </div>
+    }
+  </header>
+
+  @switch (state()) {
+    @case ('loading') {
+      <p class="message">טוען נתונים...</p>
+    }
+    @case ('error') {
+      <div class="message message--error">
+        <p>אירעה שגיאה בטעינת הנתונים.</p>
+        <button type="button" (click)="load()">נסה שוב</button>
+      </div>
+    }
+    @default {
+      @if (summary()!.total === 0) {
+        <p class="message">אין פניות להצגה.</p>
+      } @else {
+        <div class="dashboard__grid">
+          <app-breakdown-card title="פילוח לפי סטטוס" [items]="statusItems()" />
+          <app-breakdown-card title="פילוח לפי עדיפות" [items]="priorityItems()" />
+        </div>
+      }
+    }
+  }
+
+  <app-requests-filters (search)="onSearch($event)" />
+</main>

@@ -1,0 +1,61 @@
+<section class="filters">
+  <label class="field field--search">
+    <span>חיפוש חופשי (כותרת / שם ארגון)</span>
+    <input type="search" [formControl]="searchControl" placeholder="הקלד טקסט לחיפוש..." />
+  </label>
+
+  <form class="filters__advanced" [formGroup]="form" (ngSubmit)="applyFilters()">
+    <h2 class="filters__title">סינון מתקדם</h2>
+
+    <div class="filters__grid">
+      <label class="field">
+        <span>סטטוס</span>
+        <select formControlName="status">
+          <option value="">הכל</option>
+          @for (s of statuses; track s.value) {
+            <option [value]="s.value">{{ s.label }}</option>
+          }
+        </select>
+      </label>
+
+      <label class="field">
+        <span>עדיפות</span>
+        <select formControlName="priority">
+          <option value="">הכל</option>
+          @for (p of priorities; track p.value) {
+            <option [value]="p.value">{{ p.label }}</option>
+          }
+        </select>
+      </label>
+
+      <label class="field">
+        <span>שם ארגון</span>
+        <input type="text" formControlName="organizationName" />
+      </label>
+
+      <label class="field">
+        <span>מטופל על ידי</span>
+        <input type="text" formControlName="assignedTo" />
+      </label>
+
+      <label class="field">
+        <span>נוצרה מתאריך</span>
+        <input type="date" formControlName="createdFrom" />
+      </label>
+
+      <label class="field">
+        <span>נוצרה עד תאריך</span>
+        <input type="date" formControlName="createdTo" />
+      </label>
+    </div>
+
+    @if (form.hasError('dateRange')) {
+      <p class="filters__error" role="alert">תאריך ההתחלה לא יכול להיות מאוחר מתאריך הסיום.</p>
+    }
+
+    <div class="filters__actions">
+      <button type="submit" class="btn btn--primary" [disabled]="form.invalid">הצג פניות</button>
+      <button type="button" class="btn" (click)="reset()">נקה הכל</button>
+    </div>
+  </form>
+</section>

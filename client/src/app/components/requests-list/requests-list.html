@@ -1,0 +1,70 @@
+<main class="page">
+  <header class="page__header">
+    <h1>כל הפניות</h1>
+    <a routerLink="/" class="page__back">← חזרה לפילוח הפניות</a>
+  </header>
+
+  <app-requests-filters [initial]="initialFilters" (search)="onSearch($event)" />
+  <app-requests-sort [sort]="sort()" (sortChange)="onSortChange($event)" />
+
+  @if (bulkOutcome(); as outcome) {
+    <app-bulk-result [outcome]="outcome" (dismissed)="bulkOutcome.set(null)" />
+  }
+  @if (bulkError(); as bulkErr) {
+    <div class="message message--error" role="alert">{{ bulkErr }}</div>
+  }
+
+  @if (error(); as err) {
+    <div class="message message--error">
+      <p>{{ err.message }}</p>
+      @if (err.retryable) {
+        <button type="button" (click)="retry()">נסה שוב</button>
+      }
+    </div>
+  } @else if (result(); as res) {
+    <div class="results" [class.results--loading]="loading()" [attr.aria-busy]="loading()">
+      @if (res.totalCount === 0) {
+        <p class="message">לא נמצאו פניות התואמות את החיפוש.</p>
+      } @else {
+        <p class="page__count">נמצאו {{ res.totalCount.toLocaleString('he-IL') }} פניות</p>
+        <label class="page__select-all">
+          <input
+            type="checkbox"
+            [checked]="allSelected()"
+            [indeterminate]="someSelected()"
+            (change)="toggleAll($any($event.target).checked)"
+          />
+          <span>בחר הכל בעמוד</span>
+          @if (selectedIds().size > 0) {
+            <span class="page__selected-count">({{ selectedIds().size }} נבחרו)</span>
+          }
+        </label>
+        <div class="page__list">
+          @for (request of res.items; track request.id) {
+            <app-request-card
+              [request]="request"
+              [selected]="selectedIds().has(request.id)"
+              (selectionChange)="toggleOne(request.id, $event)"
+              (viewDetails)="selected.set($event)"
+            />
+          }
+        </div>
+        <app-pagination [page]="res.page" [totalPages]="res.totalPages" (pageChange)="onPageChange($event)" />
+        @if (selectedIds().size > 0) {
+          <app-bulk-actions-bar
+            [count]="selectedIds().size"
+            [busy]="bulkBusy()"
+            (apply)="onBulkApply($event)"
+            (cleared)="toggleAll(false)"
+          />
+        }
+      }
+    </div>
+  } @else {
+    <p class="message">טוען נתונים...</p>
+  }
+</main>
+
+@if (selected(); as request) {
+  <app-request-details [request]="request" (updated)="onRequestUpdated($event)" (closed)="closeDetails()" />
+}

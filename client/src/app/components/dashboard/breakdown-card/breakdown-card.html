@@ -1,0 +1,14 @@
+<section class="card">
+  <h2>{{ title() }}</h2>
+  @for (row of rows(); track row.key) {
+    <div class="row">
+      <div class="row__info">
+        <span>{{ row.label }}</span>
+        <span class="row__count">{{ row.count.toLocaleString('he-IL') }} ({{ row.percent.toFixed(1) }}%)</span>
+      </div>
+      <div class="bar">
+        <div class="bar__fill" [style.width.%]="row.percent" [style.background]="row.color"></div>
+      </div>
+    </div>
+  }
+</section>
