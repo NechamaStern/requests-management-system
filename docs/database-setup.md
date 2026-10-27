@@ -1,10 +1,10 @@
 # הפעלת מסד הנתונים
 
 ## בחירת טכנולוגיה
-SQL Server (מקומי). נבדק על LocalDB, וגם מתאים ל-SQL Server Express / Developer.
+SQL Server (מקומי), ברירת מחדל: `localhost` עם Windows Authentication. מתאים ל-Developer / Express / LocalDB.
 
 ## דרישות
-- SQL Server מותקן ופועל (LocalDB, Express או Developer).
+- SQL Server מותקן ופועל (Developer, Express או LocalDB). ל-Express יש לציין מופע בשם: `.\SQLEXPRESS`.
 - כלי `sqlcmd` (מותקן עם SQL Server Tools / SSMS), או SSMS להרצה ידנית של הסקריפטים.
 
 ## הרצה
@@ -24,10 +24,10 @@ SQL Server (מקומי). נבדק על LocalDB, וגם מתאים ל-SQL Server 
 ### PowerShell (sqlcmd)
 
 החליפו את `$server` בשם המופע שלכם:
-`(localdb)\MSSQLLocalDB` | `.\SQLEXPRESS` | `localhost`
+`localhost` (ברירת מחדל) | `.\SQLEXPRESS` | `(localdb)\MSSQLLocalDB`
 
 ```powershell
-$server = '(localdb)\MSSQLLocalDB'
+$server = 'localhost'
 cd database
 foreach ($f in 'create-database.sql','02-create-tables.sql','03-create-indexes.sql','04-seed-data.sql') {
     sqlcmd -S $server -E -C -b -i $f
@@ -47,9 +47,9 @@ sqlcmd -S $server -E -C -d RequestsManagement -Q "SELECT (SELECT COUNT(*) FROM U
 
 ## Connection String
 ```
-Server=(localdb)\MSSQLLocalDB;Database=RequestsManagement;Trusted_Connection=True;TrustServerCertificate=True
+Server=localhost;Database=RequestsManagement;Trusted_Connection=True;TrustServerCertificate=True
 ```
-יש להתאים את `Server` למופע המקומי (ראו `ConnectionStrings:DefaultConnection` ב-User Secrets של ה-API).
+אם המופע שונה (למשל `.\SQLEXPRESS`), יש לעקוף את `ConnectionStrings:DefaultConnection` ב-User Secrets של ה-API (פירוט ב-README הראשי).
 
 ## איפוס
 ```sql

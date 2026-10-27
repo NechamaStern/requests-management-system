@@ -10,8 +10,8 @@ cd server
 dotnet test tests\RequestsManagement.Tests
 ```
 
-דרישות: SQL Server LocalDB (מותקן עם Visual Studio / SQL Server Express). אין צורך להריץ את ה-API או את סקריפטי ה-DB.
-לשרת SQL אחר: להגדיר משתנה סביבה `TESTS_CONNECTION_STRING`.
+דרישות: SQL Server פועל ב-`localhost` עם Windows Authentication. אין צורך להריץ את ה-API או את סקריפטי ה-DB (הבדיקות יוצרות מסד נפרד).
+למופע אחר (למשל `.\SQLEXPRESS`): להגדיר משתנה סביבה `TESTS_CONNECTION_STRING`.
 
 ## בדיקות Integration (API + SQL Server אמיתי)
 
@@ -52,4 +52,4 @@ dotnet test tests\RequestsManagement.Tests
   הם נבדקו בנפרד ב-[performance.md](performance.md).
 - אין בדיקות ביצועים על 100K רשומות בתוך חבילת הבדיקות (נמדדו ידנית, ראו performance.md).
 - ה-Angular כולל רק בדיקת scaffold (`app.spec.ts`). הדרישה מתמקדת בבדיקות צד שרת.
-- הבדיקות דורשות LocalDB, ולכן רצות ב-Windows (או מול SQL Server אחר דרך `TESTS_CONNECTION_STRING`).
+- הבדיקות דורשות SQL Server, ולכן רצות ב-Windows (או מול SQL Server אחר דרך `TESTS_CONNECTION_STRING`).

@@ -89,7 +89,7 @@
 ## חזרה על המדידה
 
 ```powershell
-sqlcmd -S "(localdb)\MSSQLLocalDB" -E -C -d RequestsManagement -i database\performance-queries.sql
+sqlcmd -S localhost -E -C -d RequestsManagement -i database\performance-queries.sql
 ```
 
 להצגת תוכנית ביצוע בפועל: להוסיף `SET STATISTICS XML ON` או להפעיל Actual Execution Plan ב-SSMS.

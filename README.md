@@ -33,7 +33,7 @@ docs/                           תיעוד
 
 - .NET SDK 10.
 - Node.js 22.12 ומעלה בענף 22, או 24 ומעלה; npm 8 ומעלה.
-- SQL Server מקומי פועל. להתקנת Express לדוגמה אפשר להשתמש בשם מופע `.\SQLEXPRESS`.
+- SQL Server מקומי פועל, נגיש בכתובת `localhost` עם Windows Authentication (ברירת המחדל בפרויקט). ב-SQL Server Express המופע נקרא `.\SQLEXPRESS` ואז יש להחליף את `localhost` בפקודות ולהגדיר User Secrets (ראו להלן).
 - `sqlcmd` נדרש רק ליצירת מסד הנתונים באמצעות הסקריפט.
 
 ## טכנולוגיות וגרסאות

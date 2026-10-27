@@ -28,4 +28,4 @@ dotnet run --project .\src\RequestsManagement.Api --launch-profile http
 
 כתובת: `http://localhost:5231`.
 
-ה-Connection String נמצא ב-`appsettings.Development.json` (ברירת מחדל: LocalDB). להתאמה למופע אחר, ראו [`docs/database-setup.md`](../docs/database-setup.md).
+ה-Connection String נמצא ב-`appsettings.Development.json` (ברירת מחדל: `localhost`). להתאמה למופע אחר, ראו [`docs/database-setup.md`](../docs/database-setup.md).

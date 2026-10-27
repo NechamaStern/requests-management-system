@@ -8,13 +8,13 @@ using RequestsManagement.Dal.Entities;
 
 namespace RequestsManagement.Tests.Integration;
 
-// Runs the real API in memory against a dedicated SQL Server (LocalDB) database, so RowVersion and
+// Runs the real API in memory against a dedicated SQL Server database, so RowVersion and
 // optimistic concurrency are enforced by the real engine. The database is created and dropped by the tests,
 // and never touches the development database.
 public sealed class ApiFactory : WebApplicationFactory<Program>, IAsyncLifetime
 {
     private const string DefaultConnectionString =
-        "Server=(localdb)\\MSSQLLocalDB;Database=RequestsManagement_Tests;Trusted_Connection=True;TrustServerCertificate=True;";
+        "Server=localhost;Database=RequestsManagement_Tests;Trusted_Connection=True;TrustServerCertificate=True;";
 
     // Override with TESTS_CONNECTION_STRING to run against another SQL Server instance.
     private static readonly string ConnectionString =
