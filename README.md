@@ -130,6 +130,16 @@ dotnet user-secrets set "ConnectionStrings:DefaultConnection" "Server=.\SQLEXPRE
 
 ה-API פותח חיבור ל-SQL Server דרך `ConnectionStrings:DefaultConnection`; יש להקים קודם את מסד הנתונים (שלב 2).
 
+## פתרון תקלות
+
+| תקלה | פתרון |
+|------|-------|
+| `Login failed for user '...'` | למשתמש ה-Windows אין הרשאה בשרת. השתמשו ב-SQL Server מקומי שאתם מנהלים, או בקשו הרשאת יצירת מסד. ב-SSMS כמנהל: `CREATE LOGIN [DOMAIN\user] FROM WINDOWS; ALTER SERVER ROLE sysadmin ADD MEMBER [DOMAIN\user];` |
+| `sqlcmd` אינו מזוהה | פתחו ב-SSMS את ארבעת הקבצים שב-`database/` לפי הסדר והריצו כל אחד (F5). |
+| שגיאת חיבור ל-`localhost` | ב-SQL Server Express המופע נקרא `.\SQLEXPRESS`. החליפו את `localhost` בפקודות, והגדירו User Secrets (ראו להלן). שם השרת מופיע ב-SSMS אחרי `SELECT @@SERVERNAME;`. |
+| ה-API עולה אך נכשל בגישה למסד | ודאו שהמסד `RequestsManagement` נוצר (SSMS ← Databases ← Refresh) ושמחרוזת החיבור מצביעה על אותו שרת. |
+| `ng`/`npm` אינם מזוהים | התקינו Node.js (גרסה בסעיף הדרישות) ופתחו PowerShell חדש. |
+
 ## העלאה ל-Git
 
 קובצי `.gitignore` מונעים הוספת תוצרי build, `node_modules` וקובצי סודות מקומיים. לאחר יצירת מאגר מרוחק:
