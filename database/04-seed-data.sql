@@ -69,7 +69,8 @@ BEGIN
            b.Org + N' Branch ' + CAST(b.OrgBranch AS NVARCHAR(10)),
            b.Status, b.Priority, u.UserId, b.CreatedAt,
            CASE WHEN b.Status = 0 THEN b.CreatedAt
-                ELSE LEAST(@Now, DATEADD(MINUTE, b.r1 % 10080, b.CreatedAt)) END
+                ELSE CASE WHEN DATEADD(MINUTE, b.r1 % 10080, b.CreatedAt) < @Now
+                          THEN DATEADD(MINUTE, b.r1 % 10080, b.CreatedAt) ELSE @Now END END
     FROM Base b
     LEFT JOIN (SELECT Id AS UserId, ROW_NUMBER() OVER (ORDER BY Id) - 1 AS Idx FROM dbo.Users) u
            ON u.Idx = b.UserIdx;
