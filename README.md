@@ -95,6 +95,19 @@ Controller (Api)  ->  Service (Bll)  ->  Repository (Dal)  ->  SQL Server
 
    סקריפט ה-Seed (`04-seed-data.sql`) יוצר 100,000 פניות, ובהרצה חוזרת אינו מכפיל נתונים. כדי לוודא: `sqlcmd -S localhost -E -C -d RequestsManagement -Q "SELECT COUNT(*) FROM Requests"`.
 
+   **אין SQL Server במחשב? שימוש ב-LocalDB** (מותקן עם Visual Studio; קובצי המסד נוצרים בתיקיית המשתמש `C:\Users\<משתמש>\`). מריצים את אותם סקריפטים עם שם שרת אחר ומגדירים את מחרוזת החיבור:
+
+   ```powershell
+   SqlLocalDB start MSSQLLocalDB
+   cd .\database
+   foreach ($f in 'create-database.sql','02-create-tables.sql','03-create-indexes.sql','04-seed-data.sql') {
+       sqlcmd -S "(localdb)\MSSQLLocalDB" -E -C -b -i $f
+   }
+   cd ..
+   dotnet user-secrets init --project .\server\src\RequestsManagement.Api
+   dotnet user-secrets set "ConnectionStrings:DefaultConnection" "Server=(localdb)\MSSQLLocalDB;Database=RequestsManagement;Trusted_Connection=True;TrustServerCertificate=True;" --project .\server\src\RequestsManagement.Api
+   ```
+
 3. הפעל את ה-API בחלון PowerShell ראשון:
 
    ```powershell
