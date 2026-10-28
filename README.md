@@ -5,14 +5,37 @@
 ## מבנה הפרויקט
 
 ```text
-client/                         אפליקציית Angular
-server/                         פתרון .NET ו-ASP.NET Core Web API
-  src/RequestsManagement.Api/    Controllers
-  src/RequestsManagement.Bll/    שירותים, Mapping (DTO + Profiles), Cache
-  src/RequestsManagement.Dal/    EF Core, Entities, Repositories
-database/                       סקריפטים ל-SQL Server (טבלאות, אינדקסים, Seed)
-docs/                           תיעוד
+client/                                  אפליקציית Angular
+  src/app/components/                    קומפוננטות תצוגה בלבד (dashboard, requests-list, request-details, shared)
+  src/app/services/                      גישה ל-API (api/), interceptor לשגיאות, פונקציות עזר
+  src/app/models/                        טיפוסים ו-Interfaces התואמים ל-DTOs של השרת
+server/                                  פתרון .NET (RequestsManagement.sln)
+  src/RequestsManagement.Api/            שכבת הצגה: Controllers, Program.cs (DI, Middleware), GlobalExceptionHandler (ProblemDetails)
+  src/RequestsManagement.Bll/            שכבת לוגיקה: Services, כללי מעבר סטטוס, DTOs, AutoMapper Profiles, Cache, חריגות עסקיות
+  src/RequestsManagement.Dal/            שכבת נתונים: AppDbContext (EF Core), Entities, Repositories, מודלי שאילתה
+  tests/RequestsManagement.Tests/        בדיקות Integration (API + SQL Server) ובדיקות Unit
+database/                                סקריפטים ל-SQL Server (יצירת מסד, טבלאות, אינדקסים, Seed, שאילתות ביצועים)
+docs/                                    תיעוד מפורט
 ```
+
+### אחריות השכבות בשרת
+
+```text
+Controller (Api)  ->  Service (Bll)  ->  Repository (Dal)  ->  SQL Server
+     DTOs               כללים, Cache,        שאילתות EF Core,
+                        Mapping, Audit       Concurrency (RowVersion)
+```
+
+- **Api:** מקבל בקשות HTTP, מוודא פרמטרים ומחזיר DTOs וקודי סטטוס (404, 409, 400). אין בו לוגיקה עסקית. שגיאות מטופלות במקום אחד ב-`GlobalExceptionHandler` ומוחזרות כ-ProblemDetails.
+- **Bll:** מכיל את הכללים: ולידציה של מעברי סטטוס, עדכון מרוכז, כתיבת היסטוריה (Audit) ו-Cache של הסיכומים עם Invalidation אחרי עדכון. ממפה Entities ל-DTOs באמצעות AutoMapper.
+- **Dal:** הגישה היחידה למסד הנתונים. סינון, מיון, עימוד וחישוב Aggregations מתבצעים ב-SQL ולא בזיכרון. ה-Entities אינם יוצאים מחוץ לשרת.
+- **תלויות:** Api תלוי ב-Bll, Bll ב-Dal. כל השירותים וה-Repositories רשומים ב-DI בטווח Scoped, ו-`AppDbContext` נוצר לכל בקשה.
+
+### אחריות הלקוח
+
+- **Components:** תצוגה ואינטראקציה (Debounce ו-`switchMap` לחיפוש, מצבי Loading/Empty/Error, טיפול ב-409 וטעינה מחדש של הנתונים העדכניים).
+- **Services:** כל הקריאות ל-HTTP (`services/api`), interceptor לשגיאות, ופונקציות עזר שמתרגמות שגיאות API להודעות (`services/utils`).
+- **Models:** הגדרות הטיפוסים המשותפות.
 
 ## תיעוד
 
